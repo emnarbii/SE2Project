@@ -7,6 +7,7 @@ import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ResidenceDetailsComponent } from './residence-details/residence-details.component';
 import { RegisterComponent } from './register/register.component';
+import { AddresidenceComponent } from './addresidence/addresidence.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -20,6 +21,7 @@ const routes: Routes = [
     //   { path: 'productList', component: ProductComponent },
     // ],
   },
+  {path:'addR', component:AddresidenceComponent},
   {path:'residences/:id',component:ResidenceDetailsComponent},
   {path:'register',component:RegisterComponent},
   { path: '**', component: NotFoundComponent },

@@ -12,6 +12,8 @@ import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ResidenceDetailsComponent } from './residence-details/residence-details.component';
 import { RegisterComponent } from './register/register.component';
+import { AddresidenceComponent } from './addresidence/addresidence.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -24,12 +26,14 @@ import { RegisterComponent } from './register/register.component';
     NotFoundComponent,
     ResidenceDetailsComponent,
     RegisterComponent,
+    AddresidenceComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
