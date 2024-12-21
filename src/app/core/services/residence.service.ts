@@ -56,4 +56,15 @@ export class ResidenceService {
       'http://localhost:3000/residences' + '/' + id
     );
   }
+
+  addResidence(r: Residence) {
+    return this.http.post<Residence>('http://localhost:3000/residences', r);
+  }
+
+  updateResidence(r: Residence, id: number) {
+    return this.http.put<Residence>(
+      'http://localhost:3000/residences' + '/' + id,
+      r
+    );
+  }
 }

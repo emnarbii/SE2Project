@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ResidenceService } from '../core/services/residence.service';
 import { Residence } from '../core/models/Residence';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-addresidence',
@@ -9,30 +10,68 @@ import { Residence } from '../core/models/Residence';
   styleUrls: ['./addresidence.component.css'],
 })
 export class AddresidenceComponent {
+  residenceform!: FormGroup;
+  residence!:Residence;
+  idR!:number;
 
-  constructor(private rs:ResidenceService){}
-  addResidence = new FormGroup({
-    id: new FormControl(''),
-    name: new FormControl(''),
-    address: new FormControl(''),
-    image: new FormControl(''),
-    status: new FormControl(''),
-  });
+  constructor(private rs: ResidenceService, private route: Router,private ac:ActivatedRoute) {}
+  ngOnInit() {
+    this.residenceform = new FormGroup({
+      id: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^[1-9]/),
+      ]),
+      name: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^[A-Z]/),
+      ]),
+      address: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(10),
+      ]),
+      image: new FormControl('', Validators.required),
+      status: new FormControl('', [Validators.required]),
+    });
 
 
-  getId(){
-    return this.addResidence.get('id')
+    //1- recuperer l'id depuis l'url
+    this.idR = this.ac.snapshot.params['idR'];
+    //2. récupere l'objet relatif à l'id
+    this.rs.getResidenceById(this.idR).subscribe((res) => {
+      this.residence = res;
+      console.log(this.residence);
+      //3 remplir le formulaire avec l'objet recuperer
+      this.residenceform.patchValue(this.residence);
+    });  }
+
+
+ 
+  get id() {
+    return this.residenceform.get('id');
   }
-// newResidence:Residence={
-//   // id: this.addResidence.get('id')?.value,
+  get name() {
+    return this.residenceform.get('name');
+  }
+  get address() {
+    return this.residenceform.get('address');
+  }
+  get status() {
+    return this.residenceform.get('status');
+  }
 
-
-// }
-  // save(){
-  //   let r= new Residence()
-  //   r.id=(number) this.getId().value;
-  //   this.rs.addResidence(this.addResidence.value)
-  // }
-
-
+  add() {
+    if (this.idR) {
+      this.rs
+        .updateResidence(this.residenceform.value, this.idR)
+        .subscribe(() => this.route.navigate(['/residences']));
+    } else {
+      this.rs.addResidence(this.residenceform.value).subscribe(() => {
+        console.log('added!!!!');
+        this.route.navigate(['/residences']);
+      });
+      console.log(
+        'Form residence : ' + JSON.stringify(this.residenceform.value)
+      );
+    }
+  }
 }

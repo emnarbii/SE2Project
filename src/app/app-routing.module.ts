@@ -15,15 +15,17 @@ const routes: Routes = [
   { path: 'products', component: ProductComponent },
   {
     path: 'residences',
-    component: ResidencesComponent
+    component: ResidencesComponent,
     // children: [
     //   { path: 'wishList', component: WishListComponent },
     //   { path: 'productList', component: ProductComponent },
     // ],
   },
-  {path:'addR', component:AddresidenceComponent},
-  {path:'residences/:id',component:ResidenceDetailsComponent},
-  {path:'register',component:RegisterComponent},
+  { path: 'addR', component: AddresidenceComponent },
+  { path: 'update/:idR', component: AddresidenceComponent },
+
+  { path: 'residences/:id', component: ResidenceDetailsComponent },
+  { path: 'register', component: RegisterComponent },
   { path: '**', component: NotFoundComponent },
 ];
 
